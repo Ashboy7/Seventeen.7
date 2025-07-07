@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fox AI</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>🦊 Fox AI</h1>
+    <nav>
+      <button onclick="toggleTab('chat')">Chat</button>
+      <button onclick="toggleTab('image')">Image Gen</button>
+      <button onclick="toggleTab('text')">Text Gen</button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="chat" class="tab active">
+      <h2>Chat with Fox AI</h2>
+      <div id="chatBox"></div>
+      <input id="chatInput" placeholder="Ask anything..." />
+      <button onclick="sendChat()">Send</button>
+    </section>
+
+    <section id="image" class="tab">
+      <h2>Generate Image</h2>
+      <input id="imagePrompt" placeholder="Describe your image..." />
+      <button onclick="generateImage()">Generate</button>
+      <div id="imageResult"></div>
+    </section>
+
+    <section id="text" class="tab">
+      <h2>Create Content</h2>
+      <select id="textType">
+        <option>Story</option>
+        <option>Poem</option>
+        <option>Code</option>
+      </select>
+      <input id="textPrompt" placeholder="Enter topic or idea..." />
+      <button onclick="generateText()">Generate</button>
+      <div id="textResult"></div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+  </html>
