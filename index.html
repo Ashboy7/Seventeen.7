@@ -1,49 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Fox AI</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>VisionVoice AI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <h1>🦊 Fox AI</h1>
-    <nav>
-      <button onclick="toggleTab('chat')">Chat</button>
-      <button onclick="toggleTab('image')">Image Gen</button>
-      <button onclick="toggleTab('text')">Text Gen</button>
-    </nav>
-  </header>
+  <div class="app">
+    <h1>🎨 VisionVoice AI</h1>
 
-  <main>
-    <section id="chat" class="tab active">
-      <h2>Chat with Fox AI</h2>
-      <div id="chatBox"></div>
-      <input id="chatInput" placeholder="Ask anything..." />
-      <button onclick="sendChat()">Send</button>
-    </section>
+    <div class="chatbox">
+      <div id="chat"></div>
+      <div class="input-group">
+        <input type="text" id="userInput" placeholder="Ask me anything...">
+        <button onclick="sendMessage()">Send</button>
+        <button onclick="startListening()">🎙️</button>
+      </div>
+    </div>
 
-    <section id="image" class="tab">
-      <h2>Generate Image</h2>
-      <input id="imagePrompt" placeholder="Describe your image..." />
-      <button onclick="generateImage()">Generate</button>
-      <div id="imageResult"></div>
-    </section>
+    <div class="buttons">
+      <input type="text" id="imagePrompt" placeholder="Type an image idea...">
+      <button onclick="generateImage()">🖼️ Generate Image</button>
+    </div>
 
-    <section id="text" class="tab">
-      <h2>Create Content</h2>
-      <select id="textType">
-        <option>Story</option>
-        <option>Poem</option>
-        <option>Code</option>
-      </select>
-      <input id="textPrompt" placeholder="Enter topic or idea..." />
-      <button onclick="generateText()">Generate</button>
-      <div id="textResult"></div>
-    </section>
-  </main>
+    <div id="generatedImage"></div>
+  </div>
 
   <script src="script.js"></script>
 </body>
-  </html>
+</html>
