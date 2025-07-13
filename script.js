@@ -1,27 +1,82 @@
-function toggleTab(tabId) {
-  document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
-  document.getElementById(tabId).classList.add('active');
+const OPENAI_API_KEY = 'your-openai-api-key';
+
+const chatDiv = document.getElementById('chat');
+const userInput = document.getElementById('userInput');
+
+async function sendMessage() {
+  const message = userInput.value.trim();
+  if (!message) return;
+
+  appendMessage("You", message);
+  userInput.value = "";
+
+  const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${OPENAI_API_KEY}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      model: "gpt-4",
+      messages: [{ role: "user", content: message }]
+    })
+  });
+
+  const data = await response.json();
+  const reply = data.choices[0].message.content;
+  appendMessage("VisionVoice AI", reply);
+  speak(reply);
 }
 
-function sendChat() {
-  const input = document.getElementById("chatInput").value;
-  const chatBox = document.getElementById("chatBox");
-  chatBox.innerHTML += `<p><b>You:</b> ${input}</p>`;
-  chatBox.innerHTML += `<p><b>Fox AI:</b> ${mockResponse(input)}</p>`;
-  document.getElementById("chatInput").value = "";
+function appendMessage(sender, text) {
+  const messageDiv = document.createElement('div');
+  messageDiv.innerHTML = `<b>${sender}:</b> ${text}`;
+  chatDiv.appendChild(messageDiv);
+  chatDiv.scrollTop = chatDiv.scrollHeight;
 }
 
-function generateImage() {
-  const prompt = document.getElementById("imagePrompt").value;
-  document.getElementById("imageResult").innerHTML = `<p><b>Generated:</b> "${prompt}"</p><img src="https://via.placeholder.com/300?text=${encodeURIComponent(prompt)}"/>`;
+// 🎙️ Speech Recognition
+function startListening() {
+  const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+  recognition.lang = 'en-US';
+
+  recognition.onresult = function(event) {
+    const voiceText = event.results[0][0].transcript;
+    userInput.value = voiceText;
+    sendMessage();
+  };
+
+  recognition.start();
 }
 
-function generateText() {
-  const type = document.getElementById("textType").value;
-  const prompt = document.getElementById("textPrompt").value;
-  document.getElementById("textResult").innerHTML = `<p><b>${type}:</b> ${mockResponse(prompt)}</p>`;
+// 🗣️ Text-to-Speech
+function speak(text) {
+  const speech = new SpeechSynthesisUtterance(text);
+  speech.lang = "en-US";
+  speechSynthesis.speak(speech);
 }
 
-function mockResponse(prompt) {
-  return `This is a placeholder response for: "${prompt}". Real AI response goes here.`;
+// 🖼️ Image Generator
+async function generateImage() {
+  const prompt = document.getElementById('imagePrompt').value;
+  const resultDiv = document.getElementById('generatedImage');
+  resultDiv.innerHTML = "Generating image...";
+
+  const res = await fetch("https://api.openai.com/v1/images/generations", {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${OPENAI_API_KEY}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      model: "dall-e-3",
+      prompt: prompt,
+      n: 1,
+      size: "512x512"
+    })
+  });
+
+  const data = await res.json();
+  const imageUrl = data.data[0].url;
+  resultDiv.innerHTML = `<img src="${imageUrl}" alt="Generated Image">`;
 }
