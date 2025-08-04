@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Real-Time AI Character</title>
+  <style>
+    body { font-family: sans-serif; text-align: center; background: #111; color: #fff; }
+    canvas { display: block; margin: auto; }
+    #chat { margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h1>Talk to Fox AI Character</h1>
+  <canvas id="avatarCanvas" width="300" height="300"></canvas>
+  <button onclick="startTalking()">🎤 Talk</button>
+  <div id="chat"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+  <script src="https://cdn.jsdelivr.net/npm/face-api.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
